@@ -1,11 +1,10 @@
-package com.example.springjpa;
+package com.example.springjpa.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Slf4j
 @Repository

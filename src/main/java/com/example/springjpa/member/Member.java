@@ -1,4 +1,4 @@
-package com.example.springjpa;
+package com.example.springjpa.member;
 
 import lombok.Getter;
 import lombok.Setter;
