@@ -20,7 +20,7 @@ public class MemberRepositoryTest {
 
     @Test
     @Transactional  // jpa의 변화(insert, update, delete)는 트랙잭션 안에서 이루어져야한다.'
-    @Rollback(false)
+    //@Rollback(false)
     public void saveTest() {
         // given
         Member member = new Member("memberA");
