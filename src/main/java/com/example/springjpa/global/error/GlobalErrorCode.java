@@ -6,9 +6,9 @@ import lombok.ToString;
 @Getter
 @ToString
 public enum GlobalErrorCode {
-    // log in error
-    NOT_FOUND_USER(400, "L001", "This account does not exist."),
-    NOT_MATCH_PASSWORD(400, "L002", "Passwords do not match."),
+    // sign in error
+    // NOT_FOUND_USER(400, "L001", "This account does not exist."),
+    // NOT_MATCH_PASSWORD(400, "L002", "Passwords do not match."),
     ;
 
 
