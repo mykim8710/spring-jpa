@@ -26,7 +26,7 @@ public class Member {
     @Embedded
     private Address address;
 
-    @Enumerated(EnumType.STRING)
-    private MemberType type;    // ADMIN, SELLER, BUYER
+//    @Enumerated(EnumType.STRING)
+//    private MemberType type;    // ADMIN, SELLER, BUYER
 
 }
