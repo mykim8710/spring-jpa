@@ -29,4 +29,5 @@ public class Member {
 //    @Enumerated(EnumType.STRING)
 //    private MemberType type;    // ADMIN, SELLER, BUYER
 
+
 }

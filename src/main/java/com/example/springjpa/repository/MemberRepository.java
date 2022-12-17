@@ -19,7 +19,7 @@ public class MemberRepository {
     }
 
     // 회원 단건 조회 by id
-    public Optional<Member> findById(Long id) {
+    public Optional<Member> findOneById(Long id) {
         return Optional.ofNullable(em.find(Member.class, id));
     }
 
@@ -31,7 +31,7 @@ public class MemberRepository {
     }
 
     // 회원리스트 조회 by name
-    public List<Member> findByName(String name) {
+    public List<Member> findAllByName(String name) {
         String jpql = "select m from Member m where m.name =:name";
         return em.createQuery(jpql, Member.class)
                  .setParameter("name", name)

@@ -26,7 +26,7 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public Item findOne(Long itemId) {
-        return itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
+    public Item findItemOne(Long itemId) {
+        return itemRepository.findOneById(itemId).orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
     }
 }

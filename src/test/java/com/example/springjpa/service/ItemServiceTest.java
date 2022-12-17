@@ -40,7 +40,7 @@ class ItemServiceTest {
         System.out.println("addItemId = " + addItemId);
 
         // then
-        assertThat(bookItem).isEqualTo(itemRepository.findById(addItemId).get());
+        assertThat(bookItem).isEqualTo(itemRepository.findOneById(addItemId).get());
     }
 
     @Test
@@ -57,7 +57,7 @@ class ItemServiceTest {
         // then
         assertThrows(NotEnoughStockException.class, () -> {
             int quantity = 101;
-            Item findItem = itemRepository.findById(addItemId).get();
+            Item findItem = itemRepository.findOneById(addItemId).get();
             findItem.removeStock(quantity);
         });
     }

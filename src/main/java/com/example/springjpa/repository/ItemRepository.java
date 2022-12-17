@@ -23,7 +23,7 @@ public class ItemRepository {
     }
 
     // 상품 단건 조회
-    public Optional<Item> findById(Long itemId) {
+    public Optional<Item> findOneById(Long itemId) {
         return Optional.ofNullable(em.find(Item.class, itemId));
     }
 

@@ -1,6 +1,8 @@
 package com.example.springjpa.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
 @Entity
 @Table(name = "ORDERS")
@@ -73,5 +76,51 @@ public class Order { // N
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
+    }
+
+
+    /**
+     * 생성 메서드 : 주문
+     **/
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {    // 다른 파라미터와 가변인자(...)를 같이 사용하는 경우에는 가변인자를 제일 뒤에 위치
+        Order order = new Order();
+
+        order.setMember(member);
+        order.setDelivery(delivery);
+
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+
+        return order;
+    }
+
+    // 비지니스 로직
+    /**
+     * 주문취소
+     **/
+    public void cancelOrder() {
+        if(this.delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalArgumentException("배송완료된 상품은 취소가 불가능합니다.");
+        }
+
+        this.status = OrderStatus.CANCEL;
+        for (OrderItem orderItem : this.orderItems) {
+            orderItem.cancel(); // 재고 원복
+        }
+    }
+
+    /**
+     * 전체 주문 가격 조회
+     **/
+    public int getOrderTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : this.orderItems) {
+            totalPrice += orderItem.getOrderItemTotalPrice();
+        }
+        return totalPrice;
     }
 }

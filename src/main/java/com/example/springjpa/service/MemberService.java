@@ -42,12 +42,12 @@ public class MemberService {
      * 회원 단건 조회 : findMemberOne by member memberId
      */
     public Member findMemberOne(Long memberId) {
-        return memberRepository.findById(memberId)
+        return memberRepository.findOneById(memberId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
     }
 
     private void validateDuplicateMember(String name) {
-        List<Member> findMembers = memberRepository.findByName(name); // name을 db에서 유니크 제약조건 설정 권장
+        List<Member> findMembers = memberRepository.findAllByName(name); // name을 db에서 유니크 제약조건 설정 권장
         if(!findMembers.isEmpty()) {
             throw new IllegalArgumentException("이미 존재하는 회원입니다.");
         }

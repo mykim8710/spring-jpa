@@ -1,11 +1,14 @@
 package com.example.springjpa.domain;
 
 import com.example.springjpa.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
 @Entity
 public class OrderItem {
@@ -27,4 +30,35 @@ public class OrderItem {
 
     private int orderPrice;
     private int count;
+
+    /**
+     * 생성 메서드 : 주문상품
+     */
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);    // 재고
+        return orderItem;
+    }
+
+    // 비지니스 로직
+    /**
+     * 주문 취소 : 재고원복 */
+    public void cancel() {
+        //getItem().addStock(this.count);
+        //this.getItem().addStock(this.count);
+        this.item.addStock(this.count);
+    }
+
+
+    /**
+     * 주문상품 전체 가격 조회 */
+    public int getOrderItemTotalPrice() {
+        //return getOrderPrice() * getCount();
+        //return this.getOrderPrice() * this.getCount();
+        return this.orderPrice * this.count;
+    }
 }

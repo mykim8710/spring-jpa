@@ -20,7 +20,7 @@
 └── src
     ├── main
     │   ├── java
-    │   │   └── com.example.springjpa
+    │   │     └── com.example.springjpa
     │   │               └── SpringJpaApplication(C)
     │   └── resource
     │          ├── static

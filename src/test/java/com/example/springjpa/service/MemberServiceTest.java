@@ -33,7 +33,7 @@ class MemberServiceTest {
         Long joinMemberId = memberService.joinMember(member);
 
         // then
-        assertThat(member).isEqualTo(memberRepository.findById(joinMemberId).get()); // jpa 엔티티 영속
+        assertThat(member).isEqualTo(memberRepository.findOneById(joinMemberId).get()); // jpa 엔티티 영속
     }
 
     @Test
