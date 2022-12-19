@@ -4,6 +4,7 @@ import com.example.springjpa.domain.Category;
 import com.example.springjpa.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // 상속관계 전략 : 싱글테이블 전략
+@ToString
 public abstract class Item {
     @Id @GeneratedValue
     @Column(name = "ITEM_ID")

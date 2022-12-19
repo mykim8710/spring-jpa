@@ -29,4 +29,9 @@ public class ItemService {
     public Item findItemOne(Long itemId) {
         return itemRepository.findOneById(itemId).orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
     }
+
+    @Transactional
+    public void removeItem(Long itemId) {
+        itemRepository.deleteOneById(itemId);
+    }
 }

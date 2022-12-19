@@ -33,4 +33,11 @@ public class ItemRepository {
         return em.createQuery(jpql, Item.class)
                  .getResultList();
     }
+
+    // 상품 단건 삭제
+    public void deleteOneById(Long itemId) {
+        Item findItem = em.find(Item.class, itemId);
+        System.out.println("findItem = " + findItem);
+        em.remove(findItem);
+    }
 }
