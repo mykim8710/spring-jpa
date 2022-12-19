@@ -112,8 +112,8 @@ public class ItemController {
     }
 
     @PostMapping(value = "/items/{itemId}/edit")
-    public String itemEdit(@Valid @ModelAttribute("bookFormDto") BookFormDto dto, BindingResult bindingResult) {
-        log.info("[POST] /items/{}/edit  => Item Edit", dto.getId());
+    public String itemEdit(@PathVariable Long itemId, @Valid @ModelAttribute("bookFormDto") BookFormDto dto, BindingResult bindingResult) {
+        log.info("[POST] /items/{}/edit  => Item Edit", itemId);
         log.info("BookFormDto = {}", dto);
         log.info("BindingResult = {}", bindingResult);
 
@@ -121,15 +121,15 @@ public class ItemController {
             return "/items/itemEditForm";
         }
 
-        BookItem bookItem = new BookItem();
-        bookItem.setId(dto.getId());
-        bookItem.setName(dto.getName());
-        bookItem.setPrice(dto.getPrice());
-        bookItem.setStockQuantity(dto.getStockQuantity());
-        bookItem.setAuthor(dto.getAuthor());
-        bookItem.setIsbn(dto.getIsbn());
-
-        itemService.addItem(bookItem);  // if id not null, em.merge()
+//        BookItem bookItem = new BookItem(); // 준영속 엔티티 : 영속성 컨텍스트가 더는 관리하지 않는 엔티티
+//        bookItem.setId(dto.getId());
+//        bookItem.setName(dto.getName());
+//        bookItem.setPrice(dto.getPrice());
+//        bookItem.setStockQuantity(dto.getStockQuantity());
+//        bookItem.setAuthor(dto.getAuthor());
+//        bookItem.setIsbn(dto.getIsbn());
+//        itemService.addItem(bookItem);        // Item edit : 병합사용
+        itemService.editItem(dto.getId(), dto.getName(), dto.getPrice(), dto.getStockQuantity(), dto.getAuthor(), dto.getIsbn()); // Item edit : 변경감지
 
         return "redirect:/items";
     }

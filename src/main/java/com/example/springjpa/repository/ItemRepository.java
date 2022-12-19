@@ -15,11 +15,13 @@ public class ItemRepository {
 
     // 상품등록
     public void save(Item item) {
-        if(item.getId() == null) {
-            em.persist(item);
-        } else {
-            em.merge(item);
-        }
+        em.persist(item);
+
+//        if(item.getId() == null) {
+//            em.persist(item);
+//        } else {
+//            em.merge(item);   // 병합사용 X
+//        }
     }
 
     // 상품 단건 조회
