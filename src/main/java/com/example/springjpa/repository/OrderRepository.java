@@ -49,7 +49,7 @@ public class OrderRepository {
         }
 
         // 회원이름 검색
-        if(orderSearch.getMemberName() != null) {
+        if(orderSearch.getMemberName() != null && !orderSearch.getMemberName().equals("")) {
             if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;

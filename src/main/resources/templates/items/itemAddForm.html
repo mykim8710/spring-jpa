@@ -93,12 +93,13 @@
             <label th:for="author">저자</label>
             <input type="text" th:field="*{author}" class="form-control" placeholder="저자를 입력하세요">
         </div>
+        <br>
 
         <div class="form-group itemProperty bookItem">
             <label th:for="isbn">ISBN</label>
             <input type="text" th:field="*{isbn}" class="form-control" placeholder="ISBN을 입력하세요">
         </div>
-
+        <br>
         <!--movieItem-->
         <!--<div class="form-group itemProperty movieItem">
             <label th:for="director">감독</label>
@@ -109,10 +110,10 @@
             <input type="text" th:field="*{actor}" class="form-control" placeholder="배우를 입력하세요">
         </div>-->
 
-        <br>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <br/>
+
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
