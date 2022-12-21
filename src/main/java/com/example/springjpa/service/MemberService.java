@@ -1,5 +1,6 @@
 package com.example.springjpa.service;
 
+import com.example.springjpa.domain.Address;
 import com.example.springjpa.domain.Member;
 import com.example.springjpa.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,11 +41,21 @@ public class MemberService {
     }
 
     /**
-     * 회원 단건 조회 : findMemberOne by member memberId
+     * 회원 단건 조회 : findMemberOne by memberId
      */
     public Member findMemberOne(Long memberId) {
         return memberRepository.findOneById(memberId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
+    }
+
+    /**
+     * 회원수정 : 변경감지(Dirty Checking)
+     */
+    @Transactional
+    public void editMember(Long memberId, String name, String city, String street, String zipcode) {
+        Member findMember = memberRepository.findOneById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
+        findMember.setName(name);
+        findMember.setAddress(new Address(city, street, zipcode));
     }
 
     private void validateDuplicateMember(String name) {
