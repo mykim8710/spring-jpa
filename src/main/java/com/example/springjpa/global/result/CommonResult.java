@@ -1,10 +1,16 @@
 package com.example.springjpa.global.result;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class CommonResult<T> {
+    private int status;
+    private String message;
     private T data;
+
+    public CommonResult(T data) {
+        this.status = 200;
+        this.message = "OK";
+        this.data = data;
+    }
 }

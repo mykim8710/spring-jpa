@@ -1,6 +1,7 @@
 package com.example.springjpa.domain;
 
 import com.example.springjpa.domain.item.Item;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class OrderItem {
     // 연관관계의 주인 : ORDER_ITEM이 ORDER_ID(fk)를 가짐
     @ManyToOne(fetch = FetchType.LAZY)  // 지연로딩 전략(@ManyToOne, @OneToOne)
     @JoinColumn(name="ORDER_ID")
+    @JsonIgnore
     private Order order;
 
     // ITEM - ORDER_ITEM, 1 : N

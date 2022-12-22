@@ -1,5 +1,6 @@
 package com.example.springjpa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.aspectj.weaver.ast.Or;
@@ -16,6 +17,7 @@ public class Delivery {
     // [양방향 매핑]
     // ORDER - DELIVERY, 1 : 1
     // 연관관계의 주인 : ORDER가 DELIVERY_ID(fk)를 가짐
+    @JsonIgnore
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;
 

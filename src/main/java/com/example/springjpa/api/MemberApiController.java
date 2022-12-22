@@ -1,10 +1,10 @@
 package com.example.springjpa.api;
 
-import com.example.springjpa.api.dto.request.RequestMemberUpdateDto;
-import com.example.springjpa.api.dto.request.RequestMemberInsertDto;
-import com.example.springjpa.api.dto.response.ResponseMemberSelectDto;
-import com.example.springjpa.api.dto.response.ResponseMemberUpdateDto;
-import com.example.springjpa.api.dto.response.ResponseMemberInsertDto;
+import com.example.springjpa.api.dto.member.request.RequestMemberUpdateDto;
+import com.example.springjpa.api.dto.member.request.RequestMemberInsertDto;
+import com.example.springjpa.api.dto.member.response.ResponseMemberSelectDto;
+import com.example.springjpa.api.dto.member.response.ResponseMemberUpdateDto;
+import com.example.springjpa.api.dto.member.response.ResponseMemberInsertDto;
 import com.example.springjpa.global.result.CommonResult;
 import com.example.springjpa.domain.Address;
 import com.example.springjpa.domain.Member;

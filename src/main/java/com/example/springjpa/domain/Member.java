@@ -1,5 +1,6 @@
 package com.example.springjpa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Member {
     // [양방향 매핑]
     // MEMBER - ORDER, 1 : N
     // 연관관계의 주인은 ORDER, MEMBER_ID(fk)
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 

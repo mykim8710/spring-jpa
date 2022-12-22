@@ -1,5 +1,6 @@
 package com.example.springjpa.repository;
 
+import com.example.springjpa.api.dto.order.ResponseOrderSelectDto;
 import com.example.springjpa.domain.Member;
 import com.example.springjpa.domain.Order;
 import com.example.springjpa.domain.OrderSearch;
@@ -73,7 +74,6 @@ public class OrderRepository {
         return query.getResultList();
     }
 
-
     // 주문 전체 조회 : JPQL Criteria 처리 -> 실무 사용 X
     public List<Order> findAllByJPQLCriteria(OrderSearch orderSearch) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -99,5 +99,14 @@ public class OrderRepository {
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
+    }
+
+    // 주문 전체 조회 : JPQL fetch join
+    public List<Order> findAllWithMemberDelivery() {
+        String jpql = "select o from Order o";
+               jpql += " join fetch o.member m";
+               jpql += " join fetch o.delivery d";
+
+        return em.createQuery(jpql, Order.class).getResultList();
     }
 }
