@@ -1,4 +1,4 @@
-package com.example.springjpa.repository.order;
+package com.example.springjpa.repository.order.dto;
 
 import com.example.springjpa.domain.Address;
 import com.example.springjpa.domain.OrderStatus;

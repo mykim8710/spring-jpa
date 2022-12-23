@@ -1,5 +1,6 @@
 package com.example.springjpa.repository.order;
 
+import com.example.springjpa.repository.order.dto.ResponseOrderSimpleQueryDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ public class OrderSimpleQueryRepository {
     private EntityManager em;
 
     public List<ResponseOrderSimpleQueryDto> findAllOrderDtos() {
-        String jpql = "select new com.example.springjpa.repository.order.ResponseOrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)";
+        String jpql = "select new com.example.springjpa.repository.order.dto.ResponseOrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)";
                jpql += " from Order o";
                jpql += " join o.member m";
                jpql += " join o.delivery d";

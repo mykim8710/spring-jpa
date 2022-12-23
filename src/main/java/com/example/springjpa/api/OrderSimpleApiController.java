@@ -1,6 +1,6 @@
 package com.example.springjpa.api;
 
-import com.example.springjpa.api.dto.order.ResponseOrderSelectDto;
+import com.example.springjpa.api.dto.order.ResponseOrderSimpleSelectDto;
 import com.example.springjpa.domain.Order;
 import com.example.springjpa.domain.OrderSearch;
 import com.example.springjpa.global.result.CommonResult;
@@ -39,10 +39,6 @@ public class OrderSimpleApiController {
             // Lazy 강제 초기화
             order.getMember().getName();
             order.getDelivery().getStatus();
-            /*List<OrderItem> orderItems = order.getOrderItems();
-            for (OrderItem orderItem : orderItems) {
-                orderItem.getCount();
-            }*/
         }
         return new CommonResult<>(orders);
     }
@@ -55,8 +51,8 @@ public class OrderSimpleApiController {
         log.info("[GET] /api/v2/simple-orders  =>  get orders version2");
         List<Order> orders = orderRepository.findAllByJPQL(new OrderSearch());
 
-        List<ResponseOrderSelectDto> result = orders.stream()
-                                                    .map(o -> ResponseOrderSelectDto.builder()
+        List<ResponseOrderSimpleSelectDto> result = orders.stream()
+                                                    .map(o -> ResponseOrderSimpleSelectDto.builder()
                                                                                             .orderId(o.getId())
                                                                                             .name(o.getMember().getName())  // LAZY
                                                                                             .orderDate(o.getOrderDate())
@@ -75,8 +71,8 @@ public class OrderSimpleApiController {
         log.info("[GET] /api/v3/simple-orders  =>  get orders version3");
         List<Order> orders = orderRepository.findAllWithMemberDelivery();
 
-        List<ResponseOrderSelectDto> result = orders.stream()
-                                                    .map(o -> ResponseOrderSelectDto.builder()
+        List<ResponseOrderSimpleSelectDto> result = orders.stream()
+                                                    .map(o -> ResponseOrderSimpleSelectDto.builder()
                                                             .orderId(o.getId())
                                                             .name(o.getMember().getName())
                                                             .orderDate(o.getOrderDate())

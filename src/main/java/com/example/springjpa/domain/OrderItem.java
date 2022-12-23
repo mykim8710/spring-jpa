@@ -28,6 +28,7 @@ public class OrderItem {
     // 연관관계의 주인 : ORDER_ITEM이 ITEM_ID(fk)를 가짐
     @ManyToOne(fetch = FetchType.LAZY)  // 지연로딩 전략(@ManyToOne, @OneToOne)
     @JoinColumn(name = "ITEM_ID")
+    //@JsonIgnore
     private Item item;
 
     private int orderPrice;

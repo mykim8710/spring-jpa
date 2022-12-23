@@ -1,10 +1,8 @@
 package com.example.springjpa.repository;
 
-import com.example.springjpa.api.dto.order.ResponseOrderSelectDto;
 import com.example.springjpa.domain.Member;
 import com.example.springjpa.domain.Order;
 import com.example.springjpa.domain.OrderSearch;
-import com.example.springjpa.service.OrderService;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -101,11 +99,35 @@ public class OrderRepository {
         return query.getResultList();
     }
 
-    // 주문 전체 조회 : JPQL fetch join
+    // 주문 전체 조회 : JPQL fetch join : Order + Member + Delivery
     public List<Order> findAllWithMemberDelivery() {
         String jpql = "select o from Order o";
                jpql += " join fetch o.member m";
                jpql += " join fetch o.delivery d";
+
+        return em.createQuery(jpql, Order.class).getResultList();
+    }
+
+    // 주문 전체 조회 : JPQL fetch join : Order + Member + Delivery
+    // Pagination
+    public List<Order> findAllWithMemberDeliveryPagination(int offset, int limit) {
+        String jpql = "select o from Order o";
+               jpql += " join fetch o.member m";
+               jpql += " join fetch o.delivery d";
+
+        return em.createQuery(jpql, Order.class)
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .getResultList();
+    }
+
+    // 주문 전체 조회 : 컬렉션 JPQL fetch join : Order + Member + Delivery + OrderItem + Item
+    public List<Order> findAllWithMemberDeliveryOrderItemItem() {
+        String jpql = "select distinct o from Order o";
+               jpql += " join fetch o.member m";
+               jpql += " join fetch o.delivery d";
+               jpql += " join fetch o.orderItems oi";
+               jpql += " join fetch oi.item i";
 
         return em.createQuery(jpql, Order.class).getResultList();
     }
