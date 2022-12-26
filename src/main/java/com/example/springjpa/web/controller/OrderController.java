@@ -49,7 +49,10 @@ public class OrderController {
     public String orderListView(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
         log.info("[GET] /orders  =>  Order List View");
         log.info("orderSearch : {}", orderSearch);
-        List<Order> orders = orderService.searchOrder(orderSearch);
+
+        //List<Order> orders = orderService.searchOrder(orderSearch);       // jpql
+        List<Order> orders = orderService.searchOrderQueryDSL(orderSearch); // QueryDSL
+
         model.addAttribute("orders", orders);
         return "orders/orderList";
     }

@@ -7,6 +7,8 @@ import com.example.springjpa.domain.OrderSearch;
 import com.example.springjpa.global.result.CommonResult;
 import com.example.springjpa.repository.OrderRepository;
 import com.example.springjpa.repository.order.OrderQueryRepository;
+import com.example.springjpa.repository.order.dto.ResponseOrderFlatDto;
+import com.example.springjpa.repository.order.dto.ResponseOrderItemQueryDto;
 import com.example.springjpa.repository.order.dto.ResponseOrderQueryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -52,7 +56,7 @@ public class OrderApiController {
         List<ResponseOrderSelectDto> responseOrderSelectDtos = orders
                                                                 .stream()
                                                                 .map(order -> new ResponseOrderSelectDto(order))
-                                                                .collect(Collectors.toList());
+                                                                .collect(toList());
 
         return new CommonResult(responseOrderSelectDtos);
     }
@@ -67,7 +71,7 @@ public class OrderApiController {
         List<ResponseOrderSelectDto> responseOrderSelectDtos = orders
                                                                 .stream()
                                                                 .map(order -> new ResponseOrderSelectDto(order))
-                                                                .collect(Collectors.toList());
+                                                                .collect(toList());
         return new CommonResult(responseOrderSelectDtos);
     }
 
@@ -84,7 +88,7 @@ public class OrderApiController {
         List<ResponseOrderSelectDto> responseOrderSelectDtos = orders
                                                                 .stream()
                                                                 .map(order -> new ResponseOrderSelectDto(order))
-                                                                .collect(Collectors.toList());
+                                                                .collect(toList());
         return new CommonResult(responseOrderSelectDtos);
     }
 
@@ -100,11 +104,10 @@ public class OrderApiController {
     /**
      * 주문조회 api V5 : JPA에서 DTO로 바로조회 -  컬렉션 조회 최적화
      */
-    @GetMapping("/api/5/orders")
+    @GetMapping("/api/v5/orders")
     public CommonResult ordersV5() {
         log.info("[GET] /api/v5/orders  => get Orders Version5");
-
-        return new CommonResult(null);
+        return new CommonResult(orderQueryRepository.findAllOrderQueryDtosOptimization());
     }
 
     /**
@@ -113,8 +116,26 @@ public class OrderApiController {
     @GetMapping("/api/v6/orders")
     public CommonResult ordersV6() {
         log.info("[GET] /api/v6/orders  => get Orders Version6");
+        List<ResponseOrderFlatDto> responseOrderFlatDtos = orderQueryRepository.findAllOrderQueryDtosFlat();
 
-        return new CommonResult(null);
+        List<ResponseOrderQueryDto> collect = responseOrderFlatDtos.stream()
+                .collect(groupingBy(o -> new ResponseOrderQueryDto(o.getOrderId(),
+                                                                                    o.getName(),
+                                                                                    o.getOrderDate(),
+                                                                                    o.getOrderStatus(),
+                                                                                    o.getAddress()),
+                        mapping(o -> new ResponseOrderItemQueryDto(o.getOrderId(),
+                                                                                     o.getItemName(),
+                                                                                     o.getOrderPrice(),
+                                                                                     o.getCount()), toList())
+                )).entrySet().stream()
+                .map(e -> new ResponseOrderQueryDto(e.getKey().getOrderId(),
+                                                            e.getKey().getName(),
+                                                            e.getKey().getOrderDate(),
+                                                            e.getKey().getOrderStatus(),
+                                                            e.getKey().getAddress(),
+                                                            e.getValue())).collect(toList());
+        return new CommonResult(collect);
     }
 
 }

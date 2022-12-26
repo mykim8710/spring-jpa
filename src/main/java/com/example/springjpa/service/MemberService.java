@@ -3,13 +3,13 @@ package com.example.springjpa.service;
 import com.example.springjpa.domain.Address;
 import com.example.springjpa.domain.Member;
 import com.example.springjpa.repository.MemberRepository;
+import com.example.springjpa.repository.MemberRepositoryOld;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -44,7 +44,7 @@ public class MemberService {
      * 회원 단건 조회 : findMemberOne by memberId
      */
     public Member findMemberOne(Long memberId) {
-        return memberRepository.findOneById(memberId)
+        return memberRepository.findById(memberId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
     }
 
@@ -53,7 +53,7 @@ public class MemberService {
      */
     @Transactional
     public void editMember(Long memberId, String name, String city, String street, String zipcode) {
-        Member findMember = memberRepository.findOneById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
+        Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
         findMember.setName(name);
         findMember.setAddress(new Address(city, street, zipcode));
     }

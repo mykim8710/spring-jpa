@@ -1,8 +1,9 @@
 package com.example.springjpa.repository;
 
-import com.example.springjpa.domain.Member;
+import com.example.springjpa.domain.*;
 import com.example.springjpa.domain.Order;
-import com.example.springjpa.domain.OrderSearch;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +14,9 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.springjpa.domain.QMember.member;
+import static com.example.springjpa.domain.QOrder.order;
 
 @Repository
 public class OrderRepository {
@@ -98,6 +102,38 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
     }
+
+    // 주문 전체 조회 : QueryDSL
+    public List<Order> findAllByQueryDSL(OrderSearch orderSearch) {
+        QOrder order = QOrder.order;
+        QMember member = QMember.member;
+
+        JPAQueryFactory jpaQueryFactory =  new JPAQueryFactory(em);
+
+        return jpaQueryFactory.query()
+                                .select(QOrder.order)
+                                .from(QOrder.order)
+                                .join(order.member, member)
+                                .where(statusEq(orderSearch.getOrderStatus()),
+                                            nameLike(orderSearch.getMemberName()))
+                                .limit(1000)
+                                .fetch();
+    }
+
+    private BooleanExpression statusEq(OrderStatus statusCondition) {
+        if (statusCondition == null) {
+            return null;
+        }
+        return order.status.eq(statusCondition);
+    }
+
+    private BooleanExpression nameLike(String nameCondition) {
+        if (!StringUtils.hasText(nameCondition)) {
+            return null;
+        }
+        return member.name.like(nameCondition);
+    }
+
 
     // 주문 전체 조회 : JPQL fetch join : Order + Member + Delivery
     public List<Order> findAllWithMemberDelivery() {

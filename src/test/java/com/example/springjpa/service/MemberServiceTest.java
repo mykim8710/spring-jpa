@@ -1,12 +1,11 @@
 package com.example.springjpa.service;
 
 import com.example.springjpa.domain.Member;
-import com.example.springjpa.repository.MemberRepository;
+import com.example.springjpa.repository.MemberRepositoryOld;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +18,7 @@ class MemberServiceTest {
     MemberService memberService;
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepositoryOld memberRepository;
 
     @Test
     @DisplayName("회원가입 테스트")
@@ -33,7 +32,7 @@ class MemberServiceTest {
         Long joinMemberId = memberService.joinMember(member);
 
         // then
-        assertThat(member).isEqualTo(memberRepository.findOneById(joinMemberId).get()); // jpa 엔티티 영속
+        assertThat(member).isEqualTo(memberRepository.findById(joinMemberId).get()); // jpa 엔티티 영속
     }
 
     @Test

@@ -3,7 +3,7 @@ package com.example.springjpa.service;
 import com.example.springjpa.domain.*;
 import com.example.springjpa.domain.item.Item;
 import com.example.springjpa.repository.ItemRepository;
-import com.example.springjpa.repository.MemberRepository;
+import com.example.springjpa.repository.MemberRepositoryOld;
 import com.example.springjpa.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,14 +18,14 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryOld memberRepository;
     private final ItemRepository itemRepository;
 
     // 주문 : 상품 하나씩만,,,
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
         // 엔티티 조회 : Member, Item
-        Member member = memberRepository.findOneById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
         Item item = itemRepository.findOneById(itemId).orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
 
         // 배송정보 생성 : Cascade: All, Order와 함께 Persist
@@ -55,9 +54,14 @@ public class OrderService {
         findOrder.cancelOrder();
     }
 
-    // 주문조회(검색)
+    // 주문조회(검색) : JPQL
     public List<Order> searchOrder(OrderSearch orderSearch) {
         return orderRepository.findAllByJPQL(orderSearch);
+    }
+
+    // 주문조회(검색) : QueryDSL
+    public List<Order> searchOrderQueryDSL(OrderSearch orderSearch) {
+        return orderRepository.findAllByQueryDSL(orderSearch);
     }
 
 }
